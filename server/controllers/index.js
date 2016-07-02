@@ -15,7 +15,7 @@ module.exports = {
     // Ditto as above
     get: function (req, res) {},
     post: function (req, res) {
-      models.users.post(req.body);
+      models.users.post(req.body.username);
       res.end();
     }
   }
