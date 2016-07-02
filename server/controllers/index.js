@@ -9,8 +9,9 @@ module.exports = {
       console.log ( 'GET at model');
       models.messages.get(data => {
 
+        // Needs to be an array of objects with username, roomname, text properties
+        res.end(JSON.stringify(data));
       });
-      // res.end();
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       models.messages.post(req.body);

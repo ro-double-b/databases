@@ -1,0 +1,10 @@
+Searching 7 files for "JSON.parse"
+
+/Users/student/2016-06-databases/server/spec/server-spec.js:
+   92          // Should return the messages in memory from the client
+   93          console.log('In request callback \n', 'Body:', body);
+   94:         // var messageLog = JSON.parse(body);
+   95          // // This first message from client should have this message
+   96          // expect(messageLog[0].text).to.equal('Men like you can never change!');
+
+1 match in 1 file

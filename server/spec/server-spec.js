@@ -29,7 +29,7 @@ describe('Persistent Node Chat Server', function() {
     dbConnection.end();
   });
 
-  xit('Should insert posted messages to the DB', function(done) {
+  it('Should insert posted messages to the DB', function(done) {
     // Post the user to the chat server.
     request({
       method: 'POST',
@@ -71,12 +71,17 @@ describe('Persistent Node Chat Server', function() {
       // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave
     // them up to you. */
+    // dbConnection.query(`INSERT INTO users (username) VALUES ('test2')`);
+    // dbConnection.query(`INSERT INTO rooms (roomname) VALUES ('test2')`);
+    // dbConnection.query(`INSERT INTO messages (text, user_id, room_id) VALUES ('Men like you can never change!',
+    //     (SELECT u.id FROM users u WHERE u.username = 'test2'),
+    //     (SELECT r.id FROM rooms r WHERE r.roomname = 'test2'))`);
 
-    dbConnection.query(`INSERT INTO users (name) VALUES ('Javert')`);
-    dbConnection.query(`INSERT INTO rooms (name) VALUES ('main')`);
-    dbConnection.query(`INSERT INTO messages (msg, user_id, room_id) VALUES ('Men like you can never change!',
-        (SELECT u.id FROM users u WHERE u.name = 'Javert'),
-        (SELECT r.id FROM rooms r WHERE r.name = 'main'))`, function(err) {
+    dbConnection.query(`INSERT INTO users (username) VALUES ('Javert')`);
+    dbConnection.query(`INSERT INTO rooms (roomname) VALUES ('main')`);
+    dbConnection.query(`INSERT INTO messages (text, user_id, room_id) VALUES ('Men like you can never change!',
+        (SELECT u.id FROM users u WHERE u.username = 'Javert'),
+        (SELECT r.id FROM rooms r WHERE r.roomname = 'main'))`, function(err) {
       console.log('In callback');
       if (err) { throw err; }
 
@@ -86,11 +91,11 @@ describe('Persistent Node Chat Server', function() {
       request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
         // Should return the messages in memory from the client
         console.log('In request callback \n', 'Body:', body);
-        // var messageLog = JSON.parse(body);
-        // // This first message from client should have this message
-        // expect(messageLog[0].text).to.equal('Men like you can never change!');
-        // // The first message from client should have this room
-        // expect(messageLog[0].roomname).to.equal('main');
+        var messageLog = JSON.parse(body);
+        // This first message from client should have this message
+        expect(messageLog[0].text).to.equal('Men like you can never change!');
+        // The first message from client should have this room
+        expect(messageLog[0].roomname).to.equal('main');
         done();
       });
     });
