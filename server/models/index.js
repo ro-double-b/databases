@@ -20,8 +20,8 @@ module.exports = {
           }
         });
       sql.query(`INSERT INTO messages (msg, user_id, room_id) VALUES ('${message.message}',
-        (SELECT u.id FROM users u WHERE u.name = '${message.username}'),
-        (SELECT r.id FROM rooms r WHERE r.name = '${message.roomname}'))`,
+                (SELECT u.id FROM users u WHERE u.name = '${message.username}'),
+                (SELECT r.id FROM rooms r WHERE r.name = '${message.roomname}'))`,
         (err, results, fields) => {
           if (err) {
             console.error(err);
