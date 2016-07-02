@@ -7,13 +7,13 @@ USE chat;
 -- new_table(column1 INT NOT NULL AUTO_INCREMENT, column2 VARCHAR(10), column3 VARCHAR(10), primary key (column1));
 CREATE TABLE rooms (
   id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(128),
+  name VARCHAR(128) UNIQUE,
   PRIMARY KEY (id)     
 );
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(128),
+  name VARCHAR(128) UNIQUE,
   PRIMARY KEY (id)     
 );
 
