@@ -8,7 +8,18 @@ sql.connect();
 
 module.exports = {
   messages: {
-    get: function () {}, // a function which produces all the messages
+    get: function (cb) {
+      // Create array of message objects
+      console.log('GET at controller');
+      sql.query(`SELECT * FROM messages;`, function(err, results, fields) {
+        if (err) {
+          console.error(err);
+        }
+        cb(results)
+      });
+
+
+    }, // a function which produces all the messages
     post: function (message) {
 
       sql.query(`INSERT INTO rooms (name) VALUES ('${message.roomname}')`, 
@@ -34,7 +45,10 @@ module.exports = {
  
   users: {
     // Ditto as above.
-    get: function (user) {
+    get: function () {
+      sql.query(`SELECT * FROM messages`, function(err, results, fields) {
+        console.log('get users', results);
+      });
 
     },
     post: function (user) {
