@@ -35,7 +35,7 @@ module.exports = {
             console.log('Room logged');
           }
         });
-      sql.query(`INSERT INTO messages (msg, user_id, room_id) VALUES ('${message.message}',
+      sql.query(`INSERT INTO messages (text, user_id, room_id) VALUES ('${message.text}',
                 (SELECT u.id FROM users u WHERE u.username = '${message.username}'),
                 (SELECT r.id FROM rooms r WHERE r.roomname = '${message.roomname}'))`,
         (err, results, fields) => {
