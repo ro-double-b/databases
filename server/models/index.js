@@ -1,5 +1,5 @@
 var db = require('../db');
-
+ 
 // sends data to and from database
 var sql = db.connection;
 

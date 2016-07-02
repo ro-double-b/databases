@@ -16,11 +16,13 @@ describe('Persistent Node Chat Server', function() {
     });
     dbConnection.connect();
 
-    var tablename = 'messages'; // TODO: fill this out
-
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
-    dbConnection.query('truncate ' + tablename, done);
+    dbConnection.query('SET FOREIGN_KEY_CHECKS = 0');
+    dbConnection.query('truncate messages');
+    dbConnection.query('truncate users');
+    dbConnection.query('truncate rooms');
+    dbConnection.query('SET FOREIGN_KEY_CHECKS = 1', done);
   });
 
   afterEach(function() {
@@ -57,7 +59,7 @@ describe('Persistent Node Chat Server', function() {
           expect(results.length).to.equal(1);
 
           // TODO: If you don't have a column named text, change this test.
-          expect(results[0].text).to.equal('In mercy\'s name, three days is all I need.');
+          expect(results[0].msg).to.equal('In mercys name, three days is all I need.');
 
           done();
         });
@@ -65,7 +67,7 @@ describe('Persistent Node Chat Server', function() {
     });
   });
 
-  xit('Should output all messages from the DB', function(done) {
+  it('Should output all messages from the DB', function(done) {
     // Let's insert a message into the db
     var tablename = ''; // TODO: fill this out
     // TODO - The exact query string and query args to use
