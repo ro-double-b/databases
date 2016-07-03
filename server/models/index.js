@@ -10,15 +10,15 @@ module.exports = {
   messages: {
     get: function (cb) {
       // Create array of message objects
-      console.log('GET at controller');
-      sql.query(`select u.username, r.roomname, m.text
+      console.log('GET at model');
+      sql.query(`select m.objectId, u.username, r.roomname, m.text
         from users u inner join (messages m, rooms r) 
         on u.id = m.user_id AND r.id = m.room_id;`, 
         function(err, results, fields) {
           if (err) {
             console.error(err);
           }
-          console.log(results);
+          console.log('result in model',results);
           cb(results);
         });
 
@@ -26,11 +26,18 @@ module.exports = {
 
     }, // a function which produces all the messages
     post: function (message) {
-
+      sql.query(`INSERT INTO users (username) VALUES ('${message.username}');`, 
+        (err, result, field) => {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log(result);
+          }
+        });
       sql.query(`INSERT INTO rooms (roomname) VALUES ('${message.roomname}')`, 
         (err, result, fields ) => {
           if (err) {
-            throw err;
+            console.error(err);
           } else {
             console.log('Room logged');
           }
@@ -40,7 +47,7 @@ module.exports = {
                 (SELECT r.id FROM rooms r WHERE r.roomname = '${message.roomname}'))`,
         (err, results, fields) => {
           if (err) {
-            console.error(err);
+            console.error('post query error', err);
           } else {
             console.log('Results from query:', results);
           }
@@ -58,14 +65,7 @@ module.exports = {
     },
     post: function (user) {
       console.log(user);     
-      sql.query(`INSERT INTO users (username) 
-        VALUES ('${user}');`, (err, result, field) => {
-        if (err) {
-          console.error(err);
-        } else {
-          console.log(result);
-        }
-      });
+      
     }
   }
 };

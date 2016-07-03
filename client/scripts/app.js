@@ -37,9 +37,10 @@ var app = {
     // Clear messages input
     app.$message.val('');
 
+    // console.log(data)
     // POST the message to the server
     $.ajax({
-      url: app.server,
+      url: app.server + '/classes/messages',
       type: 'POST',
       data: JSON.stringify(data),
       contentType: 'application/json',
@@ -52,28 +53,32 @@ var app = {
       }
     });
   },
-
+ 
   fetch: function(animate) {
     $.ajax({
-      url: app.server,
+      url: app.server + '/classes/messages',
       type: 'GET',
       contentType: 'application/json',
-      data: { order: '-createdAt'},
+      data: {},
       success: function(data) {
         // Don't bother if we have nothing to work with
-        if (!data.results || !data.results.length) { return; }
+        data = JSON.parse(data);
+        console.log(data);
+        if (!data || !data.length) { return; }
 
         // Get the last message
-        var mostRecentMessage = data.results[data.results.length - 1];
+        var mostRecentMessage = data[data.length - 1];
         var displayedRoom = $('.chat span').first().data('roomname');
         app.stopSpinner();
         // Only bother updating the DOM if we have a new message
         if (mostRecentMessage.objectId !== app.lastMessageId || app.roomname !== displayedRoom) {
+          
+          console.log('Inside new message check');  
           // Update the UI with the fetched rooms
-          app.populateRooms(data.results);
+          app.populateRooms(data);
 
           // Update the UI with the fetched messages
-          app.populateMessages(data.results, animate);
+          app.populateMessages(data, animate);
 
           // Store the ID of the most recent message
           app.lastMessageId = mostRecentMessage.objectId;
@@ -118,6 +123,7 @@ var app = {
       results.forEach(function(data) {
         var roomname = data.roomname;
         if (roomname && !rooms[roomname]) {
+          console.log('In populateRooms', data);
           // Add the room to the select menu
           app.addRoom(roomname);
 

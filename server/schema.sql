@@ -19,11 +19,11 @@ CREATE TABLE users (
 
 CREATE TABLE messages (
 --   /* Describe your table here.*/     
-  id INT NOT NULL AUTO_INCREMENT,
+  objectId INT NOT NULL AUTO_INCREMENT,
   user_id INT NOT NULL,
   text VARCHAR(256),
   room_id INT,
-  PRIMARY KEY (id),
+  PRIMARY KEY (objectId),
   FOREIGN KEY (room_id) REFERENCES rooms (id),
   FOREIGN KEY (user_id) REFERENCES users (id)
 );
